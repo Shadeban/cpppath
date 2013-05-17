@@ -14,7 +14,6 @@ void MapParser::output() const{
 	file.close();
 
 }
-
 void MapParser::parse() {
 	ifstream file;
 	file.open(filename);
@@ -22,6 +21,7 @@ void MapParser::parse() {
 	x = 0;
 	y = 0;
 	int i = 0;
+	char* tempmap;	
 	while (getline(file, line)) {
 		i++;
 		if(i == 2){
@@ -32,38 +32,81 @@ void MapParser::parse() {
 			istringstream widthline (line);
 			widthline.ignore(100, ' ');
 			widthline >> x;	
-			map = new char[x * y];
+			tempmap = new char[x*y];	
+			map = new unsigned char[x * y];
 		}
 		if(i <= 4){
 			cout << i << " " << x << " " << y << ".  " << line << endl;
 		}
 		else {
-			
-			istringstream(line).read(map + (x * (i - 5)), x);
+
+			istringstream(line).read(tempmap + (x * (i - 5)), x);
 		}
-		 
+
 	}
-	
-	cout << bitset<8>(neighbors(0))  <<endl;
-	cout << bitset<8>(neighbors(100))  <<endl;
-	cout << bitset<8>(neighbors(x-1))  <<endl;
-	cout << bitset<8>(neighbors(x*10))  <<endl;
-	cout << bitset<8>(neighbors(x* 10 + 100)) << endl;
-	cout << bitset<8>(neighbors(x*10 - 1))  <<endl;
-	cout << bitset<8>(neighbors(x*(y-1) ))  <<endl;
-	cout << bitset<8>(neighbors(x*y -100))  <<endl;
-	cout << bitset<8>(neighbors(x*y -1))  <<endl;
-		
-	delete[] map;	
+
+
 	file.close();
 
+	delete[] tempmap;	
 
 }
 
-unsigned char MapParser::neighbors(int k) const{
+void MapParser::createTraversalMap(char * parsedmap){
+	for(int i = 0; i < x * y; i++){
+		map[i] = neighbors(i, parsedmap);
+	}
+
+}
+
+int MapParser::findNeighborIndex(int index, unsigned char dir) const{
+	int offset = 0;
+	if(dir & upside) {
+		offset = offset - x;
+	}
+	if(dir & downside) {
+		offset = offset + x;
+	}
+	if(dir & leftside) {
+		offset--;
+	}
+	if(dir & rightside) {
+		offset++;
+	}
+	return index + offset;
+}
+bool MapParser::canPass(char start, char end) const{
+	if(end == '.'){
+		return true;
+	}
+
+}
+bool MapParser::canMove(int k, unsigned char dir, char * map) const{
+	if(canPass(map[k], map[findNeighborIndex(k, dir)])){
+		if(dir & orthogs){
+			return true;
+		}
+		bool canMoveVert = false;
+		//is a diag, need to check complementary dirs
+		if(dir & upside){
+			canMoveVert = canMove(k, up, map);		
+		} else if (dir & downside){
+			canMoveVert = canMove(k, down, map);
+		}
+		if(canMoveVert){
+			if(dir & leftside){
+				return canMove(k,left,map);
+			}else if (dir & rightside){
+				return canMove(k, right, map);
+			}	
+		}
+	}
+	return false;
+}
+unsigned char MapParser::neighbors(int k, char * map) const{
 	unsigned char potential_neighbors = ~0;
 
-	//remove neighbors from edge
+	//remove neighbors from edges
 	if(k % x == 0){
 		potential_neighbors = potential_neighbors & ~leftside;
 	}else if (k % x == x - 1){
@@ -74,8 +117,11 @@ unsigned char MapParser::neighbors(int k) const{
 	}else if (k / x == y - 1){
 		potential_neighbors = potential_neighbors & ~downside;
 	}
-
-
+	for(int i = 0; i < 8; i++){
+		if(potential_neighbors & alldirs()[i] && !canMove(k, alldirs()[i], map)){
+			potential_neighbors = potential_neighbors & ~alldirs()[i];
+		}
+	}
 	return potential_neighbors;
 
 

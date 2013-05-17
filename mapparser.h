@@ -1,3 +1,5 @@
+#ifndef _map_parser_h
+#define _map_parser_h
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -14,7 +16,7 @@ class MapParser {
 		int x;
 		int y;
 		const char* filename;
-		char* map;
+		unsigned char* map;
 		static const unsigned char upleft = 1;
 		static const unsigned char up = 1 << 1;
 		static const unsigned char upright = 1 << 2;
@@ -29,9 +31,17 @@ class MapParser {
 		static const unsigned char rightside = upright + right + downright;
 		static const unsigned char upside = upleft + up + upright;
 		static const unsigned char downside = downleft + down + downright;
-		
-		unsigned char neighbors(int k) const;	
+		static const unsigned char * alldirs(){
+
+			return {upleft, up, upright, left, right, downleft, down, downright};	
+		}		
+		void createTraversalMap(char * parsedmap);
+		int findNeighborIndex(int index, unsigned char dir) const;
+		unsigned char neighbors(int k, char * map) const;
+		bool canPass(char start, char end) const;
+		bool canMove(int index, unsigned char dir, char* map) const;
+
 
 
 };
-
+#endif
