@@ -3,6 +3,8 @@
 MapParser::MapParser(const char* filename) :filename(filename) {
 }
 
+const unsigned char MapParser::alldirs[] = {upleft, up, upright, left, right, downleft, down, downright};	
+
 void MapParser::output() const{
 	ifstream file;
 	file.open(filename);
@@ -118,8 +120,8 @@ unsigned char MapParser::neighbors(int k, char * map) const{
 		potential_neighbors = potential_neighbors & ~downside;
 	}
 	for(int i = 0; i < 8; i++){
-		if(potential_neighbors & alldirs()[i] && !canMove(k, alldirs()[i], map)){
-			potential_neighbors = potential_neighbors & ~alldirs()[i];
+		if(potential_neighbors & alldirs[i] && !canMove(k, alldirs[i], map)){
+			potential_neighbors = potential_neighbors & ~alldirs[i];
 		}
 	}
 	return potential_neighbors;

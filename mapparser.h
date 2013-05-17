@@ -31,10 +31,8 @@ class MapParser {
 		static const unsigned char rightside = upright + right + downright;
 		static const unsigned char upside = upleft + up + upright;
 		static const unsigned char downside = downleft + down + downright;
-		static const unsigned char * alldirs(){
+		static const unsigned char alldirs[8];
 
-			return {upleft, up, upright, left, right, downleft, down, downright};	
-		}		
 		void createTraversalMap(char * parsedmap);
 		int findNeighborIndex(int index, unsigned char dir) const;
 		unsigned char neighbors(int k, char * map) const;
