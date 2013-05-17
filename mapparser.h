@@ -10,6 +10,7 @@ using namespace std;
 class MapParser {
 	public:
 		MapParser(const char * filename);
+		~MapParser();	
 		void output () const;
 		void parse();	
 	private:

@@ -2,7 +2,9 @@
 
 MapParser::MapParser(const char* filename) :filename(filename) {
 }
-
+MapParser::~MapParser(){
+	delete[] map;
+}
 const unsigned char MapParser::alldirs[] = {upleft, up, upright, left, right, downleft, down, downright};	
 
 void MapParser::output() const{
@@ -37,17 +39,13 @@ void MapParser::parse() {
 			tempmap = new char[x*y];	
 			map = new unsigned char[x * y];
 		}
-		if(i <= 4){
-			cout << i << " " << x << " " << y << ".  " << line << endl;
-		}
-		else {
-
+		if(i > 4){
 			istringstream(line).read(tempmap + (x * (i - 5)), x);
 		}
 
 	}
 
-
+	createTraversalMap(tempmap);
 	file.close();
 
 	delete[] tempmap;	
