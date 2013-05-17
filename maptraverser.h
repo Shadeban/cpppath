@@ -21,7 +21,8 @@ class CompareNode {
 
 class MapTraverser{
 	public:
-		MapTraverser(MapParser* mapParser) :mapParser(mapParser){};
+		MapTraverser(MapParser* mapParser); 
+		
 	private:
 		void createNodes();
 		shared_ptr<Node> getNode(int index, bool create);

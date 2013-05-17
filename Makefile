@@ -1,5 +1,5 @@
 objects = main.o mapparser.o ScenarioLoader.o maptraverser.o
-CXXFLAGS = -std=c++0x  
+CXXFLAGS = -std=c++0x -O2 
 path.exe : $(objects)
 	g++ -o path.exe $(objects)
 

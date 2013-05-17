@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <bitset>
+#include <vector>
 using namespace std;
 
 class MapParser {
@@ -15,6 +16,7 @@ class MapParser {
 		void parse();	
 		unsigned char* map;
 		int mapSize() const;
+		void allNeighbors(int index, vector<int> buffer);
 	private:
 		int x;
 		int y;

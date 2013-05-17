@@ -21,6 +21,16 @@ void MapParser::output() const{
 int MapParser::mapSize() const {
 	return x * y;
 }
+
+void MapParser::allNeighbors(int index, vector<int> buffer) {
+	for(int i = 0; i < 8; i++){
+		if(map[index] & alldirs[i]){
+			buffer.push_back(findNeighborIndex(index, alldirs[i]));	
+		}
+	
+	}
+
+}
 void MapParser::parse() {
 	ifstream file;
 	file.open(filename);
@@ -83,6 +93,7 @@ bool MapParser::canPass(char start, char end) const{
 	if(end == '.'){
 		return true;
 	}
+	return false;
 
 }
 bool MapParser::canMove(int k, unsigned char dir, char * map) const{
