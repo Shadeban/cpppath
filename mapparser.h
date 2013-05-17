@@ -13,11 +13,12 @@ class MapParser {
 		~MapParser();	
 		void output () const;
 		void parse();	
+		unsigned char* map;
+		int mapSize() const;
 	private:
 		int x;
 		int y;
 		const char* filename;
-		unsigned char* map;
 		static const unsigned char upleft = 1;
 		static const unsigned char up = 1 << 1;
 		static const unsigned char upright = 1 << 2;
@@ -33,7 +34,6 @@ class MapParser {
 		static const unsigned char upside = upleft + up + upright;
 		static const unsigned char downside = downleft + down + downright;
 		static const unsigned char alldirs[8];
-
 		void createTraversalMap(char * parsedmap);
 		int findNeighborIndex(int index, unsigned char dir) const;
 		unsigned char neighbors(int k, char * map) const;

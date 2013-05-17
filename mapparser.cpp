@@ -18,6 +18,9 @@ void MapParser::output() const{
 	file.close();
 
 }
+int MapParser::mapSize() const {
+	return x * y;
+}
 void MapParser::parse() {
 	ifstream file;
 	file.open(filename);
@@ -47,10 +50,11 @@ void MapParser::parse() {
 
 	createTraversalMap(tempmap);
 	file.close();
-
-	delete[] tempmap;	
+	delete[] tempmap;		
 
 }
+
+
 
 void MapParser::createTraversalMap(char * parsedmap){
 	for(int i = 0; i < x * y; i++){
