@@ -29,6 +29,6 @@ int main ( int argc, const char* argv[])
 	map.parse();	
 	
 	MapTraverser traverse(&map);
-
+	cout << traverse.djikstra(749 + 1024 * 97, 749 + 1024 * 104);
 	return 0;
 }

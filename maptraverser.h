@@ -3,6 +3,7 @@
 #include "mapparser.h"
 #include <memory>
 #include <map>
+#include <queue>
 using namespace std;
 
 struct Node{
@@ -22,13 +23,12 @@ class CompareNode {
 class MapTraverser{
 	public:
 		MapTraverser(MapParser* mapParser); 
-		
+		double djikstra(int start, int end);		
 	private:
 		void createNodes();
-		shared_ptr<Node> getNode(int index, bool create);
+		Node* getNode(int index, bool create);
 		MapParser * mapParser;
-		map<int, shared_ptr<Node> > nodes;
+		map<int, Node* > nodes;
 };
 
-static const double sqrtTwo = 1.41421356237309504880168872420969807857; // sqrt(2)
 #endif

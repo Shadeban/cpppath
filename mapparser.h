@@ -16,7 +16,7 @@ class MapParser {
 		void parse();	
 		unsigned char* map;
 		int mapSize() const;
-		void allNeighbors(int index, vector<int> buffer);
+		void allNeighbors(int index, vector<int> buffer, vector<double> dists);
 	private:
 		int x;
 		int y;
@@ -45,4 +45,6 @@ class MapParser {
 
 
 };
+
+static const double sqrtTwo = 1.41421356237309504880168872420969807857; // sqrt(2)
 #endif
