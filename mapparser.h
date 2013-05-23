@@ -16,7 +16,7 @@ class MapParser {
 		void parse();	
 		unsigned char* map;
 		int mapSize() const;
-		void allNeighbors(int index, vector<int> buffer, vector<double> dists);
+		void allNeighbors(int index, vector<int> * buffer, vector<double> * dists);
 	private:
 		int x;
 		int y;

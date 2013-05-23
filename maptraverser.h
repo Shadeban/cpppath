@@ -24,11 +24,12 @@ class MapTraverser{
 	public:
 		MapTraverser(MapParser* mapParser); 
 		double djikstra(int start, int end);		
+		void resetNodes();
 	private:
 		void createNodes();
 		Node* getNode(int index, bool create);
 		MapParser * mapParser;
-		map<int, Node* > nodes;
+		map<int, Node* >* nodes;
 };
 
 #endif

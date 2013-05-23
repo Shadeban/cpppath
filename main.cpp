@@ -20,15 +20,20 @@ class ComparePair
 
 int main ( int argc, const char* argv[])
 {
-	
+
+
+
 	ScenarioLoader sceneLoader("./map/Aurora.map.scen");
 
-	cout << sceneLoader.GetNumExperiments();
 	MapParser map("./map/Aurora.map");	
 
 	map.parse();	
 	
 	MapTraverser traverse(&map);
-	cout << traverse.djikstra(749 + 1024 * 97, 749 + 1024 * 104);
+	for(int i = 1; i < sceneLoader.GetNumExperiments(); i++){
+		traverse.resetNodes();	
+		Experiment experiment = sceneLoader.GetNthExperiment(i);
+		cout << traverse.djikstra(experiment.GetStartX() + experiment.GetStartY() * 1024, experiment.GetGoalX() + 1024 * experiment.GetGoalY()) << " =?= " << experiment.GetDistance() << endl;
+	}
 	return 0;
 }

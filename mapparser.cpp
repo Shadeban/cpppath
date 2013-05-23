@@ -22,11 +22,11 @@ int MapParser::mapSize() const {
 	return x * y;
 }
 
-void MapParser::allNeighbors(int index, vector<int> buffer, vector<double> dists) {
+void MapParser::allNeighbors(int index, vector<int>* buffer, vector<double>* dists) {
 	for(int i = 0; i < 8; i++){
 		if(map[index] & alldirs[i]){
-			buffer.push_back(findNeighborIndex(index, alldirs[i]));	
-			dists.push_back(alldirs[i] & diags ? sqrtTwo : 1.0);
+			buffer->push_back(findNeighborIndex(index, alldirs[i]));	
+			dists->push_back(alldirs[i] & diags ? sqrtTwo : 1.0);
 		}
 	
 	}
