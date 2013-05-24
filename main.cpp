@@ -30,7 +30,7 @@ int main ( int argc, const char* argv[])
 	map.parse();	
 	
 	MapTraverser traverse(&map);
-	for(int i = 1; i < sceneLoader.GetNumExperiments(); i++){
+	for(int i = 2000; i < 2300; i++){
 		traverse.resetNodes();	
 		Experiment experiment = sceneLoader.GetNthExperiment(i);
 		cout << traverse.djikstra(experiment.GetStartX() + experiment.GetStartY() * 1024, experiment.GetGoalX() + 1024 * experiment.GetGoalY()) << " =?= " << experiment.GetDistance() << endl;
