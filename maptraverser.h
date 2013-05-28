@@ -4,11 +4,14 @@
 #include <memory>
 #include <map>
 #include <queue>
+#include <cmath>
 using namespace std;
 
 struct Node{
 	int index;
 	double score;
+	double dist;
+	bool visited;
 	Node* prev;
 	map<Node*, double> neighbors;
 };
@@ -24,12 +27,20 @@ class MapTraverser{
 	public:
 		MapTraverser(MapParser* mapParser); 
 		double djikstra(int start, int end);		
+		double astar(int start, int end);		
 		void resetNodes();
+		double heuristic(int start, int end);
 	private:
 		void createNodes();
+		void outputpath(Node* end);
 		Node* getNode(int index, bool create);
 		MapParser * mapParser;
 		map<int, Node* >* nodes;
+		vector<int>* dirtyNodes;
 };
+
+
+static const double infDouble = 1.0 / 0.0; //inf 
+static const double diagCoef = sqrtTwo - 2;
 
 #endif
