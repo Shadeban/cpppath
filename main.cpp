@@ -31,7 +31,7 @@ int main ( int argc, const char* argv[])
 	outputTime();
 	cout << "scenario loaded" << endl;
 	MapParser * map = new MapParser("D:/Projects/all/cpp/path/map/Aurora.map");	
-	bool djikstra = true;
+	bool djikstra = false;
 	map->parse();	
 	outputTime();
 	cout << "map parsed" << endl;	
@@ -39,15 +39,15 @@ int main ( int argc, const char* argv[])
 	outputTime();
 	cout << "traverser initialized" << endl;
 	time_t start = time(0);
-	int startExp = 800;
-	int endExp = 1000;//sceneLoader.GetNumExperiments();
+	int startExp = 0;//sceneLoader->GetNumExperiments() ;
+	int endExp = sceneLoader->GetNumExperiments();
 	if(djikstra){	
 	for(int i = startExp; i < endExp; i++){
 		traverse->resetNodes();	
 		Experiment experiment = sceneLoader->GetNthExperiment(i);
 		double result = traverse->djikstra(experiment.GetStartX() + experiment.GetStartY() * 1024, experiment.GetGoalX() + 1024 * experiment.GetGoalY());
-		bool match = abs(result -  experiment.GetDistance()) < 0.001;
-		if(match) {cout << ".";}
+		bool match = abs(result -  experiment.GetDistance()) < 0.01;
+		if(match) {cout << "\r" << i << "/" << sceneLoader->GetNumExperiments();}
 		else {cout << endl << result << " =/=" << experiment.GetDistance() << endl;}
 	}
 
@@ -58,8 +58,8 @@ int main ( int argc, const char* argv[])
 		traverse->resetNodes();	
 		Experiment experiment = sceneLoader->GetNthExperiment(i);
 		double result = traverse->astar(experiment.GetStartX() + experiment.GetStartY() * 1024, experiment.GetGoalX() + 1024 * experiment.GetGoalY());
-		bool match = abs(result -  experiment.GetDistance()) < 0.001;
-		if(match) {cout << ".";}
+		bool match = abs(result -  experiment.GetDistance()) < 0.01;
+		if(match) {cout << "\r" << i << "/" << sceneLoader->GetNumExperiments();}
 		else {cout << endl << result << " =/=" << experiment.GetDistance() << endl;}
 	}
 
