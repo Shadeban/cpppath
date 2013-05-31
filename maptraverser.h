@@ -12,6 +12,7 @@ struct Node{
 	double score;
 	double dist;
 	bool visited;
+	bool closed;
 	Node* prev;
 	map<Node*, double> neighbors;
 };

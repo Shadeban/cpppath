@@ -1,7 +1,7 @@
 objects = main.o mapparser.o ScenarioLoader.o maptraverser.o
 CC = g++
 CXX_LDFLAGS = -o
-CXXFLAGS =  -O2
+CXXFLAGS =  -O2 -g
 pathf.exe : $(objects)
 	$(CC) $(CXX_LDFLAGS) pathf.exe $(objects)  
 main.o : mapparser.h

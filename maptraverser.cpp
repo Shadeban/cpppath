@@ -21,7 +21,9 @@ void MapTraverser::createNodes(){
 void MapTraverser::resetNodes(){
 	for(map<int, Node*>::iterator iter = nodes->begin(); iter != nodes->end(); iter++){
 		iter->second->score = infDouble;
+		iter->second->dist = infDouble;
 		iter->second->visited = false;
+		iter->second->closed = false;
 		iter->second->prev = NULL;
 	}
 	/*for(int i = 0; i < mapParserdirtyNodes->size(); i++){
@@ -41,8 +43,10 @@ Node* MapTraverser::getNode(int index, bool create = false){
 		if (create){	
 			Node* a = new Node();
 			a->score = infDouble;
+			a->dist = infDouble;
 			a->index = index;
 			a->visited = false;	
+			a->closed = false;	
 			a->prev = NULL;			
 			nodes->insert(pair<int,Node*>(index, a));	
 		}else if (!create) {
@@ -60,16 +64,18 @@ Node* MapTraverser::getNode(int index, bool create = false){
 }
 
 double MapTraverser::djikstra(int start, int end) {
-	priority_queue<Node *, vector<Node *>, CompareNode> open;
+        vector<Node *> open;
 	getNode(start)->score = 0;
-	open.push(getNode(start));
+	open.push_back(getNode(start));
+	CompareNode compare;
 	Node* current;
 	Node* neighbor;
 	double neighborDist;
 	map<Node *, double>::iterator iter;  
 	while (!open.empty()){
-		current = open.top();
-		open.pop();
+		pop_heap(open.begin(), open.end(), compare);	
+		current = open.back();	
+		open.pop_back();
 		if(current->visited) {
 			continue;
 		}	
@@ -83,12 +89,13 @@ double MapTraverser::djikstra(int start, int end) {
 			if(neighbor->index == end){return neighborDist;}	
 			if(neighborDist < neighbor->score ){
 				neighbor->score = neighborDist;
-				open.push(neighbor);	
+				open.push_back(neighbor);	
 			}
 			
 		
 		}
 	
+			make_heap(open.begin(), open.end(), compare);
 	}
 
 
@@ -96,9 +103,10 @@ double MapTraverser::djikstra(int start, int end) {
 
 }
 double MapTraverser::heuristic(int start, int end){
-	int dx = abs(start % 1024 - end % 1024);
-	int dy = abs(start / 1024 - end / 1024);
-	return dx + dy  + (diagCoef * min(dx,dy));	
+	return 0;
+	//	int dx = abs(start % 1024 - end % 1024);
+//	int dy = abs(start / 1024 - end / 1024);
+//	return dx + dy  + (diagCoef * min(dx,dy));	
 
 
 }
@@ -114,6 +122,7 @@ void MapTraverser::outputpath(Node* end){
 
 
 double MapTraverser::astar(int start, int end) {
+
         vector<Node *> open;
 	getNode(start)->score = heuristic(start, end);
 	getNode(start)->dist = 0;
@@ -125,40 +134,38 @@ double MapTraverser::astar(int start, int end) {
 	double neighborDist;
 	double neighborScore;
 	map<Node *, double>::iterator iter;  
-	bool fix_heap = false;
 	while (!open.empty()){
 		pop_heap(open.begin(), open.end(), compare);	
 		current = open.back();	
 		open.pop_back();
+		if(current->index == end){
+				//outputpath(neighbor);	
+				return current->dist;}	
+		current->closed = true;
 		for(iter = current->neighbors.begin(); iter != current->neighbors.end(); iter++){
 			neighbor = iter->first;
 				
 			neighborDist = iter->second + current->dist;
-			if(neighbor->index == end){
-				neighbor->prev = current;
-				//outputpath(neighbor);	
-				return neighborDist;}	
-			neighborScore = neighborDist + heuristic(neighbor->index, end);		
-			if(neighborScore < neighbor->score ){
-				neighbor->score = neighborScore;
+			//cout << neighborDist << endl;	
+		//
+		//	neighborScore = 
+			if(neighbor->closed && neighborDist > neighbor->dist){
+				continue;
+			}	
+			if(neighborDist < neighbor->dist ){
+				neighbor->score = neighborDist + heuristic(neighbor->index, end);		
 				neighbor->dist = neighborDist;
 				neighbor->prev = current;
 				if (!neighbor->visited){	
 					open.push_back(neighbor);	
-					push_heap(open.begin(), open.end(), compare);	
 					neighbor->visited = true;
-				}else {
-					fix_heap = true;
 				}
 
 			}
 			
 		
 		}
-		if(fix_heap){
 			make_heap(open.begin(), open.end(), compare);
-			fix_heap = false;
-		}	
 	
 	}
 
