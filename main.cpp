@@ -40,7 +40,7 @@ int main ( int argc, const char* argv[])
 	cout << "traverser initialized" << endl;
 	time_t start = time(0);
 	int startExp = 800;
-	int endExp =  1000;//sceneLoader.GetNumExperiments();
+	int endExp = 1000;//sceneLoader.GetNumExperiments();
 	if(djikstra){	
 	for(int i = startExp; i < endExp; i++){
 		traverse->resetNodes();	

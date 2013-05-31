@@ -5,8 +5,14 @@
 #include <map>
 #include <queue>
 #include <cmath>
+#include <boost/heap/priority_queue.hpp>
+#include <boost/heap/fibonacci_heap.hpp>
 using namespace std;
 
+class CompareNode {
+	public:
+		bool operator()(const void* n1, const void* n2) const ;
+};
 struct Node{
 	int index;
 	double score;
@@ -15,16 +21,16 @@ struct Node{
 	bool closed;
 	Node* prev;
 	map<Node*, double> neighbors;
+	boost::heap::fibonacci_heap<Node*, boost::heap::compare<CompareNode> >::handle_type handle;
+	
 };
 
-class CompareNode {
-	public:
-		bool operator()(const Node* n1, const Node* n2) {
-			return n1->score > n2->score;		
-		}
-};
+inline bool CompareNode::operator()(const void* n1, const void* n2) const  {return ((Node*)n1)->score > ((Node*)n2)->score;}
+
+typedef boost::heap::fibonacci_heap<Node*, boost::heap::compare<CompareNode> > NodeHeap;
 
 class MapTraverser{
+	
 	public:
 		MapTraverser(MapParser* mapParser); 
 		double djikstra(int start, int end);		
