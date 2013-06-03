@@ -32,6 +32,14 @@ void MapParser::allNeighbors(int index, vector<int>* buffer, vector<double>* dis
 	}
 
 }
+int MapParser::getX() const {
+	return x;
+}
+
+int MapParser::getY() const {
+	return y;
+}
+
 void MapParser::parse() {
 	ifstream file;
 	file.open(filename);

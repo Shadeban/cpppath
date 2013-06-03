@@ -101,8 +101,8 @@ double MapTraverser::djikstra(int start, int end) {
 
 }
 double MapTraverser::heuristic(int start, int end){
-	int dx = abs(start % 1024 - end % 1024);
-	int dy = abs(start / 1024 - end / 1024);
+	int dx = abs(start % (mapParser->getX()) - end % (mapParser->getX()));
+	int dy = abs(start / mapParser->getX() - end / mapParser->getX());
 	return dx + dy  + (diagCoef * min(dx,dy));	
 
 
@@ -111,7 +111,7 @@ double MapTraverser::heuristic(int start, int end){
 void MapTraverser::outputpath(Node* end){
 	Node* current = end;
 	while(current->prev != NULL){
-		cout << current->index % 1024 << "," << current->index / 1024 << " dist: " << current->dist << " score: " << current->score << endl;
+		cout << current->index % mapParser->getX() << "," << current->index / mapParser->getX() << " dist: " << current->dist << " score: " << current->score << endl;
 		current = current->prev;
 	}
 }	

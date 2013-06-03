@@ -27,10 +27,10 @@ void outputTime(){
 int main ( int argc, const char* argv[])
 {
 	outputTime();
-	ScenarioLoader * sceneLoader = new ScenarioLoader("D:/Projects/all/cpp/path/map/Aurora.map.scen");
+	ScenarioLoader * sceneLoader = new ScenarioLoader("D:/Projects/all/cpp/path/map/Enigma.map.scen");
 	outputTime();
 	cout << "scenario loaded" << endl;
-	MapParser * map = new MapParser("D:/Projects/all/cpp/path/map/Aurora.map");	
+	MapParser * map = new MapParser("D:/Projects/all/cpp/path/map/Enigma.map");	
 	bool djikstra = false;
 	map->parse();	
 	outputTime();
@@ -45,7 +45,7 @@ int main ( int argc, const char* argv[])
 	for(int i = startExp; i < endExp; i++){
 		traverse->resetNodes();	
 		Experiment experiment = sceneLoader->GetNthExperiment(i);
-		double result = traverse->djikstra(experiment.GetStartX() + experiment.GetStartY() * 1024, experiment.GetGoalX() + 1024 * experiment.GetGoalY());
+		double result = traverse->djikstra(experiment.GetStartX() + experiment.GetStartY() * map->getX(), experiment.GetGoalX() + map->getX() * experiment.GetGoalY());
 		bool match = abs(result -  experiment.GetDistance()) < 0.01;
 		if(match) {cout << "\r" << i << "/" << sceneLoader->GetNumExperiments();}
 		else {cout << endl << result << " =/=" << experiment.GetDistance() << endl;}
@@ -57,9 +57,9 @@ int main ( int argc, const char* argv[])
 	for(int i = startExp; i < endExp; i++){
 		traverse->resetNodes();	
 		Experiment experiment = sceneLoader->GetNthExperiment(i);
-		double result = traverse->astar(experiment.GetStartX() + experiment.GetStartY() * 1024, experiment.GetGoalX() + 1024 * experiment.GetGoalY());
+		double result = traverse->astar(experiment.GetStartX() + experiment.GetStartY() * map->getX(), experiment.GetGoalX() + map->getX() * experiment.GetGoalY());
 		bool match = abs(result -  experiment.GetDistance()) < 0.01;
-		if(match) {cout << "\r" << i << "/" << sceneLoader->GetNumExperiments();}
+		if(match) {cout << "\r" << i + 1 << "/" << sceneLoader->GetNumExperiments();}
 		else {cout << endl << result << " =/=" << experiment.GetDistance() << endl;}
 	}
 
