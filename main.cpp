@@ -6,8 +6,8 @@
 #include <vector>
 #include <cmath>
 #include <ctime>
-#include "mapparser.h"
-#include "maptraverser.h"
+#include "mapparser.hpp"
+#include "maptraverser.hpp"
 #include "ScenarioLoader.h"
 using namespace std;
 class ComparePair

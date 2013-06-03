@@ -1,4 +1,4 @@
-#include "mapparser.h"
+#include "mapparser.hpp"
 
 MapParser::MapParser(const char* filename) :filename(filename) {
 }

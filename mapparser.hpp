@@ -17,8 +17,9 @@ class MapParser {
 		unsigned char* map;
 		int mapSize() const;
 		void allNeighbors(int index, vector<int> * buffer, vector<double> * dists);
+		int getX() const;
+		int getY() const;
 	private:
-		int test;	
 		int x;
 		int y;
 		const char* filename;

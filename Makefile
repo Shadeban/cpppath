@@ -5,10 +5,10 @@ CXX_LDFLAGS = -I$(BOOST) -o
 CXXFLAGS =  -I$(BOOST)  -O3
 pathf.exe : $(objects)
 	$(CC) $(CXX_LDFLAGS) pathf.exe $(objects)  
-main.o : mapparser.h
-mapparser.o : mapparser.h
+main.o : mapparser.o maptraverser.o
+mapparser.o : mapparser.hpp
 ScenarioLoader.o : ScenarioLoader.h
-maptraverser.o: maptraverser.h
+maptraverser.o: maptraverser.hpp
 
 .PHONY : clean
 clean:

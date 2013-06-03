@@ -1,4 +1,4 @@
-#include "maptraverser.h"
+#include "maptraverser.hpp"
 MapTraverser::MapTraverser(MapParser* mapParser) :mapParser(mapParser){
 	createNodes();
 	//dirtyNodes = new vector<int>();
