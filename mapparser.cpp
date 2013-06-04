@@ -72,7 +72,12 @@ void MapParser::parse() {
 	delete[] tempmap;		
 
 }
-
+int MapParser::travel(int index, unsigned char dir) const {
+	if(map[index] & dir){
+		return findNeighborIndex(index, dir);
+	}
+	return -1;
+}
 
 
 void MapParser::createTraversalMap(char * parsedmap){
