@@ -19,10 +19,7 @@ class MapParser {
 		void allNeighbors(int index, vector<int> * buffer, vector<double> * dists);
 		int getX() const;
 		int getY() const;
-	private:
-		int x;
-		int y;
-		const char* filename;
+		int travel (int index, unsigned char dir) const;	
 		static const unsigned char upleft = 1;
 		static const unsigned char up = 1 << 1;
 		static const unsigned char upright = 1 << 2;
@@ -32,14 +29,19 @@ class MapParser {
 		static const unsigned char down = 1 << 6;
 		static const unsigned char downright = 1 << 7;
 		static const unsigned char diags = upleft + upright + downleft + downright;
+		static const unsigned char alldirs[8];
+		int findNeighborIndex(int index, unsigned char dir) const;
+
+	private:
+		int x;
+		int y;
+		const char* filename;
 		static const unsigned char orthogs = up + down + left + right;
 		static const unsigned char leftside = upleft + left + downleft;
 		static const unsigned char rightside = upright + right + downright;
 		static const unsigned char upside = upleft + up + upright;
 		static const unsigned char downside = downleft + down + downright;
-		static const unsigned char alldirs[8];
 		void createTraversalMap(char * parsedmap);
-		int findNeighborIndex(int index, unsigned char dir) const;
 		unsigned char neighbors(int k, char * map) const;
 		bool canPass(char start, char end) const;
 		bool canMove(int index, unsigned char dir, char* map) const;

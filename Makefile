@@ -2,7 +2,7 @@ BOOST = D:/boost_1_53_0
 objects = main.o mapparser.o ScenarioLoader.o maptraverser.o
 CC = g++
 CXX_LDFLAGS = -I$(BOOST) -o 
-CXXFLAGS =  -I$(BOOST)  -O3
+CXXFLAGS =  -I$(BOOST) -g 
 pathf.exe : $(objects)
 	$(CC) $(CXX_LDFLAGS) pathf.exe $(objects)  
 main.o : mapparser.o maptraverser.o

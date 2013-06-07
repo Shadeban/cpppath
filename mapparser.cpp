@@ -103,6 +103,8 @@ int MapParser::findNeighborIndex(int index, unsigned char dir) const{
 	}
 	return index + offset;
 }
+
+
 bool MapParser::canPass(char start, char end) const{
 	if(end == '.'){
 		return true;

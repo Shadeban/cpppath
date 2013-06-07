@@ -19,6 +19,8 @@ struct Node{
 	double dist;
 	bool visited;
 	bool closed;
+	bool forced;
+	unsigned char travelDir;	
 	Node* prev;
 	map<Node*, double> neighbors;
 	boost::heap::fibonacci_heap<Node*, boost::heap::compare<CompareNode> >::handle_type handle;
@@ -37,13 +39,22 @@ class MapTraverser{
 		double astar(int start, int end);		
 		void resetNodes();
 		double heuristic(int start, int end);
+		double jps(int start, int end);
 	private:
 		void createNodes();
+		unsigned char dirTo(Node* start, Node* end);
+		bool hasForced(int index, unsigned char direction);
+		bool isDiagAndHasOrthogJumps(int index, unsigned char travelDir, int goalIndex);
+		Node* jump(Node * current, unsigned char direction, int goalIndex);
 		void outputpath(Node* end);
 		Node* getNode(int index, bool create);
 		MapParser * mapParser;
 		map<int, Node* >* nodes;
 		vector<int>* dirtyNodes;
+		map<unsigned char, unsigned char *> forceTriggerDirs;
+		map<unsigned char, unsigned char *> complements;
+		map<unsigned char, map<unsigned char, unsigned char *> > dirsBetween;
+
 };
 
 

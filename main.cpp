@@ -32,6 +32,8 @@ int main ( int argc, const char* argv[])
 	cout << "scenario loaded" << endl;
 	MapParser * map = new MapParser("D:/Projects/all/cpp/path/map/Enigma.map");	
 	bool djikstra = false;
+	bool astar = false;
+	bool jps = true;
 	map->parse();	
 	outputTime();
 	cout << "map parsed" << endl;	
@@ -39,8 +41,8 @@ int main ( int argc, const char* argv[])
 	outputTime();
 	cout << "traverser initialized" << endl;
 	time_t start = time(0);
-	int startExp = 0;//sceneLoader->GetNumExperiments() ;
-	int endExp = sceneLoader->GetNumExperiments();
+	int startExp = 200;//sceneLoader->GetNumExperiments() ;
+	int endExp = 300;//sceneLoader->GetNumExperiments();
 	if(djikstra){	
 	for(int i = startExp; i < endExp; i++){
 		traverse->resetNodes();	
@@ -54,6 +56,7 @@ int main ( int argc, const char* argv[])
 	cout << difftime(start, time(0)) << " seconds total dj" << endl;
 	}	
 	start = time(0);
+	if(astar){
 	for(int i = startExp; i < endExp; i++){
 		traverse->resetNodes();	
 		Experiment experiment = sceneLoader->GetNthExperiment(i);
@@ -62,8 +65,21 @@ int main ( int argc, const char* argv[])
 		if(match) {cout << "\r" << i + 1 << "/" << sceneLoader->GetNumExperiments();}
 		else {cout << endl << result << " =/=" << experiment.GetDistance() << endl;}
 	}
-
-	cout << difftime(start, time(0)) << " seconds total as" << endl;
+	
+		cout << difftime(start, time(0)) << " seconds total as" << endl;
+	}
+	start = time(0);
+	if(jps){
+	for(int i = startExp; i < endExp; i++){
+		traverse->resetNodes();	
+		Experiment experiment = sceneLoader->GetNthExperiment(i);
+		double result = traverse->jps(experiment.GetStartX() + experiment.GetStartY() * map->getX(), experiment.GetGoalX() + map->getX() * experiment.GetGoalY());
+		bool match = abs(result -  experiment.GetDistance()) < 0.01;
+		if(match) {cout << "\r" << i + 1 << "/" << sceneLoader->GetNumExperiments();}
+		else {cout << endl << result << " =/=" << experiment.GetDistance() << endl;}
+	}
+		cout << difftime(start, time(0)) << " seconds total jps" << endl;
+	}
 	return 0;
 }
 
